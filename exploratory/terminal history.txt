@@ -1,0 +1,291 @@
+
+R version 3.2.3 (2015-12-10) -- "Wooden Christmas-Tree"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> setwd("C:/Users/phil/Dropbox/R/Reproducible Research/RepData_PeerAssessment1")
+> ?unzip
+> unzip("activity.zip")
+> activities <- read.csv("activities.csv")
+Error in file(file, "rt") : cannot open the connection
+In addition: Warning message:
+In file(file, "rt") :
+  cannot open file 'activities.csv': No such file or directory
+> activities <- read.csv("activity.csv")
+> View(activities)
+> activities <- read.csv("activity.csv", na.exclude(TRUE))
+> activities <- read.csv("activity.csv", na.omit())
+Error in na.omit.default() : 
+  argument "object" is missing, with no default
+> activities <- read.csv("activity.csv", na.omit(TRUE))
+> View(activities)
+> activities <- read.csv("activity.csv", na.rm = TRUE)
+Error in read.table(file = file, header = header, sep = sep, quote = quote,  : 
+  unused argument (na.rm = TRUE)
+> activites <- na.omit(read.csv("ativity.csv"))
+Error in file(file, "rt") : cannot open the connection
+In addition: Warning message:
+In file(file, "rt") :
+  cannot open file 'ativity.csv': No such file or directory
+> activites <- na.omit(read.csv("activity.csv"))
+> View(activites)
+> View(activities)
+> rm(activities)
+> activities <- na.omit(read.csv("activity.csv"))
+> rm(activites)
+> activities <- read.csv("activity.csv")
+> sum(complte.cases(activities))
+Error: could not find function "complte.cases"
+> sum(compelte.cases(activities))
+Error: could not find function "compelte.cases"
+> sum(compelete.cases(activities))
+Error: could not find function "compelete.cases"
+> sum(complete.cases(activities))
+[1] 15264
+> count(activities)
+Error: could not find function "count"
+> nrow(activities)
+[1] 17568
+> missing_value_count <- nrow(activities) - sum(complete.cases(activities))
+> missing_value_count
+[1] 2304
+> act2 <- na.omit(activities)
+> hist(act2$steps)
+> import dplyr
+Error: unexpected symbol in "import dplyr"
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> View(act2)
+> summarise(act2, total_steps = sum(steps))
+  total_steps
+1      570608
+> summarise(act2, total_steps = sum(steps), date = n())
+  total_steps  date
+1      570608 15264
+> summarise(act2, total_steps = sum(steps), date)
+Error: expecting result of length one, got : 15264
+> summarise(act2, date, total_steps = sum(steps))
+Error: expecting result of length one, got : 15264
+> daily <- group_by(act2, date)
+> View(daily)
+> summarise(daily, sum(steps))
+Source: local data frame [53 x 2]
+
+         date sum(steps)
+       (fctr)      (int)
+1  2012-10-02        126
+2  2012-10-03      11352
+3  2012-10-04      12116
+4  2012-10-05      13294
+5  2012-10-06      15420
+6  2012-10-07      11015
+7  2012-10-09      12811
+8  2012-10-10       9900
+9  2012-10-11      10304
+10 2012-10-12      17382
+..        ...        ...
+> summarise(daily, total_steps = sum(steps))
+Source: local data frame [53 x 2]
+
+         date total_steps
+       (fctr)       (int)
+1  2012-10-02         126
+2  2012-10-03       11352
+3  2012-10-04       12116
+4  2012-10-05       13294
+5  2012-10-06       15420
+6  2012-10-07       11015
+7  2012-10-09       12811
+8  2012-10-10        9900
+9  2012-10-11       10304
+10 2012-10-12       17382
+..        ...         ...
+> sumry <- summarise(daily, total_steps = sum(steps))
+> hist(sumry)
+Error in hist.default(sumry) : 'x' must be numeric
+> hist(sumry$total_steps)
+> sumry <- summarise(daily, total_steps = sum(steps), mean = mean(steps), median = median(steps))
+> sumry
+Source: local data frame [53 x 4]
+
+         date total_steps     mean median
+       (fctr)       (int)    (dbl)  (dbl)
+1  2012-10-02         126  0.43750      0
+2  2012-10-03       11352 39.41667      0
+3  2012-10-04       12116 42.06944      0
+4  2012-10-05       13294 46.15972      0
+5  2012-10-06       15420 53.54167      0
+6  2012-10-07       11015 38.24653      0
+7  2012-10-09       12811 44.48264      0
+8  2012-10-10        9900 34.37500      0
+9  2012-10-11       10304 35.77778      0
+10 2012-10-12       17382 60.35417      0
+..        ...         ...      ...    ...
+> ?median
+> median(daily$steps)
+[1] 0
+> mode(daily$steps)
+[1] "numeric"
+> sumry <- summarise(daily, total_steps = sum(steps), mean = mean(steps), median = median(steps))
+> sumry <- summarise(daily, total_steps = sum(steps))
+> mean(sumry$total_steps)
+[1] 10766.19
+> median(sumry$total_steps)
+[1] 10765
+> terval <- group_by(act2, interval)
+> sumry2 <- summarise(terval, total_steps = sum(steps))
+> sumry2
+Source: local data frame [288 x 2]
+
+   interval total_steps
+      (int)       (int)
+1         0          91
+2         5          18
+3        10           7
+4        15           8
+5        20           4
+6        25         111
+7        30          28
+8        35          46
+9        40           0
+10       45          78
+..      ...         ...
+> hist(Sumry2)
+Error in hist(Sumry2) : object 'Sumry2' not found
+> hist(sumry2)
+Error in hist.default(sumry2) : 'x' must be numeric
+> hist(sumry2$total_steps)
+> sumry2 <- summarise(terval, total_steps = sum(steps), mean_steps = mean(steps))
+> hist(sumry2$mean_steps)
+> sumry2
+Source: local data frame [288 x 3]
+
+   interval total_steps mean_steps
+      (int)       (int)      (dbl)
+1         0          91  1.7169811
+2         5          18  0.3396226
+3        10           7  0.1320755
+4        15           8  0.1509434
+5        20           4  0.0754717
+6        25         111  2.0943396
+7        30          28  0.5283019
+8        35          46  0.8679245
+9        40           0  0.0000000
+10       45          78  1.4716981
+..      ...         ...        ...
+> hist(sumry2$mean_steps)
+> plot(sumry2$mean_steps, type = "l")
+> sumry2
+Source: local data frame [288 x 3]
+
+   interval total_steps mean_steps
+      (int)       (int)      (dbl)
+1         0          91  1.7169811
+2         5          18  0.3396226
+3        10           7  0.1320755
+4        15           8  0.1509434
+5        20           4  0.0754717
+6        25         111  2.0943396
+7        30          28  0.5283019
+8        35          46  0.8679245
+9        40           0  0.0000000
+10       45          78  1.4716981
+..      ...         ...        ...
+> plot(x = sumry2$interval, y = sumry2$mean_steps, type = "l")
+> sumry2[which.max(sumry2$mean_steps)]
+Source: local data frame [288 x 1]
+
+Variables not shown: NA (NULL)
+> sumry2[which.max(sumry2$mean_steps),]
+Source: local data frame [1 x 3]
+
+  interval total_steps mean_steps
+     (int)       (int)      (dbl)
+1      835       10927   206.1698
+> ?sapply
+> ?lapply
+> library("swirl")
+
+| Hi! I see that you have some variables saved in your workspace. To keep things running smoothly, I recommend you clean up before starting swirl.
+
+| Type ls() to see a list of the variables in your workspace. Then, type rm(list=ls()) to clear your workspace.
+
+| Type swirl() when you are ready to begin.
+
+> swirl()
+
+| Welcome to swirl!
+
+| Please sign in. If you've been here before, use the same name as you did then. If you are new, call yourself something unique.
+
+What shall I call you? phil
+
+| Would you like to continue with one of these lessons?
+
+1: Getting and Cleaning Data Dates and Times with lubridate
+2: No. Let me start something new.
+
+Selection: 2
+
+| Please choose a course, or type 0 to exit swirl.
+
+1: Exploratory Data Analysis
+2: Getting and Cleaning Data
+3: Take me to the swirl course repository!
+
+Selection: 3
+
+| OK. I'm opening the swirl courses web page in your browser.
+
+| Leaving swirl now. Type swirl() to resume.
+
+> png(filename = "exploratory/interval_hist.png")
+> png(filename = "exploratory/interval_timeseries.png")
+> plot(sumry2$mean_steps, type = "l")
+> dev.off()
+RStudioGD 
+        2 
+> png(filename = "exploratory/mean_hist.png")
+> hist(sumry2$mean_steps)
+> dev.off()
+RStudioGD 
+        2 
+> dev.off()
+png 
+  4 
+> dev()
+Error: could not find function "dev"
+> dev.cur()
+png 
+  4 
+> dev.off()
+null device 
+          1 
+> dev.cur()
+null device 
+          1 
+> windows()
+> dev.off()
+Error in dev.off() : cannot shut down device 1 (the null device)
